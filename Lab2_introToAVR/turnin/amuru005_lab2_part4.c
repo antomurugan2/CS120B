@@ -27,12 +27,13 @@ int main(void) {
 		tmpA = PINA & 0xFF; //Check the weight in seat A
 		tmpB = PINB & 0xFF; //Check the weight in seat B
 		tmpC = PINC & 0xFF; //Check the weight in seat C
+		unsigned char totalWeight = tmpA + tmpB + tmpC;
 		// 2) Perform computation
-		tmpD = ((tmpA + tmpB + tmpC) >> 4) & 0xFC;
-		if((tmpA + tmpB + tmpC) > 0x8C){ tmpD = tmpD & 0xF1;}
-		else if((tmpA - tmpC) > 0x50 | (tmpC - tmpA) > 0x50) { tmpD = tmpD & 0xF2;} 
+		tmpD = (totalWeight >> 4) & 0xFC;
+		if((tmpA + tmpB + tmpC) > 0x8C){ tmpD = tmpD | 0x01;}
+		else if((tmpA - tmpC) > 0x50 || (tmpC - tmpA) > 0x50) { tmpD = tmpD | 0x02;} 
 	// 3) Write output
-	PORTD = tmpD;	
+	PORTD = tmpD << 4;	
 	}
 	return 0;
 
