@@ -33,7 +33,7 @@ int main(void) {
 	default: tmpC = 0x40; break;
 	}
 	    
-	if(tmpA | 0x3F){ tmpC = tmpC & 0x7F;}
+	if(tmpA & 0x3F){ tmpC = tmpC & 0x7F;}
 	
 	PORTC = tmpC;
     }
