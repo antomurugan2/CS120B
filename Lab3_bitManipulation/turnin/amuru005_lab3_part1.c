@@ -24,15 +24,20 @@ int main(void) {
     while (1) {
 	tmpA = PINA & 0xFF; // Set tmpA to values of PINA
 	tmpB = PINB & 0xFF; // Set tmpB to values of PINB
-	while(tmpA){
-		tmpC += tmpA & 1; // When a 1 is detected add it to tmpC
-		tmpA >>= 1;	// shift to the next 1
-	}
-	
-	while(tmpB){
-                tmpC += tmpB & 1; // When a 1 is detected add it to tmpC
-                tmpB >>= 1;	// When a 1 is detected add it to tmpC
-        }
+	while (tmpA > 0) { 
+		// If current bit is 1 
+		if (tmpA & 1) { 
+			tmpC+=1; 
+		} 
+		tmpA = tmpA >> 1; 
+	} 
+	while (tmpB > 0) { 
+		// If current bit is 1 
+		if (tmpB & 1) { 
+			tmpC+=1; 
+		} 
+		tmpB = tmpB >> 1; 
+	} 
 	PORTC = tmpC;
     }
     return 0;
