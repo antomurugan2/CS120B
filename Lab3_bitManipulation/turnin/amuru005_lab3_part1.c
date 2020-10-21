@@ -22,20 +22,20 @@ int main(void) {
 	unsigned char tmpC = 0x00; // Temporary variable to hold the value of C
     /* Insert your solution below */
     while (1) {
-	tmpA = PINA & 0xFF; // Set tmpA to values of PINA
-	tmpB = PINB & 0xFF; // Set tmpB to values of PINB
+	tmpA = PINA; // Set tmpA to values of PINA
+	tmpB = PINB; // Set tmpB to values of PINB
 	// Iterate through all the bits 
-	while (tmpA > 0) { 
+	while (tmpA > 0x00) { 
 		// If current bit is 1 
-		if (tmpA & 1) { 
-			tmpC++; 
+		if (tmpA & 0x01) { 
+			tmpC+=1; 
 		} 
 		tmpA = tmpA >> 1; 
 	} 
-	while (tmpB > 0) { 
+	while (tmpB > 0x00) { 
 		// If current bit is 1 
-		if (tmpB & 1) { 
-			tmpC++; 
+		if (tmpB & 0x01) { 
+			tmpC+=1; 
 		} 
 		tmpB = tmpB >> 1; 
 	} 
