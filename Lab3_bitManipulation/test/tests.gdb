@@ -27,7 +27,7 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Add tests below
-test "PINA: 0x00, PINB: 0x00 => PORTC: 0x01"
+test "PINA: 0x00, PINB: 0x00 => PORTC: 0x00"
 setPINA 0x00
 setPINA 0x00
 continue 5
