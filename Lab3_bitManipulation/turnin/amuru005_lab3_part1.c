@@ -20,21 +20,25 @@ int main(void) {
 	unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
 	unsigned char tmpB = 0x00; // Temporary variable to hold the value of B
 	unsigned char tmpC = 0x00; // Temporary variable to hold the value of C
-	unsigned char i = 0;
     /* Insert your solution below */
     while (1) {
 	tmpA = PINA & 0xFF; // Set tmpA to values of PINA
 	tmpB = PINB & 0xFF; // Set tmpB to values of PINB
-	for (; i < 8; ++i) {
-		if(((tmpA & (0x01 << i)) != 0)) {
-			++tmpC;
-		}
-	}
-	for (; i < 8; ++i) {
-		if(((tmpB & (0x01 << i)) != 0)) {
-			++tmpC;
-		}
-	}
+	// Iterate through all the bits 
+	while (tmpA > 0) { 
+		// If current bit is 1 
+		if (tmpA & 1) { 
+			tmpC++; 
+		} 
+		tmpA = tmpA >> 1; 
+	} 
+	while (tmpB > 0) { 
+		// If current bit is 1 
+		if (tmpB & 1) { 
+			tmpC++; 
+		} 
+		tmpB = tmpB >> 1; 
+	} 
 	PORTC = tmpC;
     }
     return 0;
