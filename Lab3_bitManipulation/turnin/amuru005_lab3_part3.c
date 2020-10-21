@@ -21,6 +21,7 @@ int main(void) {
     /* Insert your solution below */
     while (1) {
 	tmpA = PINA & 0xFF; // Set tmpA to values of PINA
+	
 	switch(tmpA){		// Use switch case to identify the different levels of fuel
 	case 0x00: tmpC = 0x40; break;
 	case 0x01: case 0x02: tmpC = 0x60; break;
@@ -29,15 +30,11 @@ int main(void) {
 	case 0x07: case 0x08: case 0x09: tmpC = 0x3C; break;
 	case 0x0A: case 0x0B: case 0x0C: tmpC = 0x3E; break;
 	case 0x0D: case 0x0E: case 0x0F: tmpC = 0x3F; break;
-  	case 0x30: tmpC = 0xC0; break;
-	case 0x31: case 0x32: tmpC = 0x70; break;
-	case 0x33: case 0x34: tmpC = 0xF0; break;
-	case 0x35: case 0x36: tmpC = 0xB8; break;
-	case 0x37: case 0x38: case 0x39: tmpC = 0xBC; break;
-	case 0x3A: case 0x3B: case 0x3C: tmpC = 0xBE; break;
-	case 0x3D: case 0x3E: case 0x3F: tmpC = 0xBF; break;
 	default: tmpC = 0x40; break;
 	}
+	    
+	if(tmpA | 0x3F){ tmpC = tmpC & 0x7F;}
+	
 	PORTC = tmpC;
     }
     return 0;
