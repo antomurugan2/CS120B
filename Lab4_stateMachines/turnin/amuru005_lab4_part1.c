@@ -19,7 +19,7 @@ void Tick_OffOnRP()
  switch(state) { // Transitions
  case Start: // Initial transition
  state = OffR;
- B = 0x01;
+ PORTB = 0x01;
  break;
  case OffR:
  if (PINA == 0x01){state = OnP; PORTB = 0x02;}
