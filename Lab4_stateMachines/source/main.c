@@ -13,42 +13,44 @@
 #endif
 #include "RIMS.h"
 
-enum SM3_STATES { SM3_SMStart, SM3_OffR, SM3_OnR, SM3_OffP, SM3_OnP} SM3_STATE;
-
-void Tick_OffOnRP() {
- switch(SM3_STATE) { // Transitions
-    case SM3_SMStart: // Initial transition
-                    SM2_STATE = SM3_OffR;
-                    B = 0;
-                    break;
-    case SM3_OffR:
-                    if (A0){SM3_STATE = SM3_OnP; B = 0x1;}
-                    else if (!A0){SM3_STATE = SM3_OffR;}
-                    else {SM3_STATE = SM3_OffR;}
-                    break;
-    case SM3_OnP:
-                    if (!A0) {SM3_STATE = SM3_OnR;}
-                    else if (A0) {SM3_STATE = SM3_OnP;}
-                    else {SM3_STATE = SM3_OnP;}
-                    break;
-    case SM3_OnR:
-                    if (A0){SM3_STATE = SM3_OffP; B = 0;}
-                    else if (!A0){SM3_STATE = SM3_OnR;}
-                    else {SM3_STATE = SM3_OnR;}
-                    break;
-    case SM3_OffP:
-                    if (!A0) {SM3_STATE = SM3_OffR;}
-                    else if (A0) {SM3_STATE = SM3_OffP;}
-                    else {SM3_STATE = SM3_OffP;}
-                    break;
-    default:
-                    SM3_STATE = SM3_OffR;
-                    break;
-   } // Transitions
+enum States { Start, OffR, OnR, OffP, OnP} state;
+void Tick_OffOnRP()
+{
+ switch(state) { // Transitions
+ case Start: // Initial transition
+ state = OffR;
+ B = 0x01;
+ break;
+ case OffR:
+ if (PINA == 0x01){state = OnP; PORTB = 0x02;}
+ else if (PINA != 0x01){state = OffR;}
+ break;
+ case OnP:
+ if (PINA != 0x01) {state = OnR;}
+ else if (PINA == 0x01) {state = OnP;}
+ break;
+ case OnR:
+ if (PINA == 0x01){state = OffP; PORTB = 0x01;}
+ else if (PINA != 0x01){state = OnR;}
+ break;
+ case OffP:
+ if (PINA != 0x01) {state = OffR;}
+ else if (PINA == 0x01) {state = OffP;}
+ break;
+ default:
+ state = Start;
+ break;
+ } // Transitions
 }
 
-void main() {
- B = 0x00; // Initialize outputs
- SM3_STATE = SM3_SMStart; // Indicates initial call
- while(1) {Tick_OffOnRP();}
+int main(void) {
+	state = start;
+ // Initialize ports
+	DDRA = 0x00; PORTA = 0xFF;
+	DDRB = 0xFF; PORTB = 0x00;
+
+	while(1) {
+		Tick_OffOnRP();
+	}
+    return 0;
 }
