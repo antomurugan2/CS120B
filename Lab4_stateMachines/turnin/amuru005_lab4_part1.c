@@ -11,7 +11,7 @@
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
 #endif
-#include "RIMS.h"
+
 
 enum States { Start, OffR, OnR, OffP, OnP} state;
 void Tick_OffOnRP()
