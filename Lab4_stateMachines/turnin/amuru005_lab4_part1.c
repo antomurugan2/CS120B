@@ -44,7 +44,7 @@ void Tick_OffOnRP()
 }
 
 int main(void) {
-	state = start;
+	state = Start;
  // Initialize ports
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
