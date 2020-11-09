@@ -145,7 +145,7 @@ void Tick()
 				} else if(tmpB == 0x01) {	
 					PORTB = 0x02;  
 					break;
-				} else if(tmp == 0x02) {	
+				} else if(tmpB == 0x02) {	
 					PORTB = 0x04;  
 					break;
 				}
