@@ -106,7 +106,7 @@ void Tick()
 				break;
 			} else if(tmpB == 0x01) {	
 				state = pB0;  break;
-			} else if(tmp == 0x02) {	
+			} else if(tmpB == 0x02) {	
 				state = pB0;  break;
 			}
 		} else {
@@ -123,15 +123,15 @@ void Tick()
 			break;
 		case pB0:
 			PORTB = 0x01;
-			tmp = 0x00;
+			tmpB = 0x00;
 			break;
 		case pB1:
 			PORTB = 0x02;
-			tmp = 0x01;
+			tmpB = 0x01;
 			break;
 		case pB2:
 			PORTB = 0x04;
-			tmp = 0x02;
+			tmpB = 0x02;
 			break;
 		case pA0:
   			break;
