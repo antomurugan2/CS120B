@@ -1,7 +1,7 @@
 /*	Author: gowthamanto
  *  Partner(s) Name: Anto Murugan
  *	Lab Section: 022
- *	Assignment: Lab 7  Exercise 4
+ *	Assignment: Lab 7  Exercise 3
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -27,24 +27,13 @@ int main(void) {
     unsigned short adc_var = ADC;
     
     while (1) {
-
-		if (adc_var >= 0x0F) {
-			PORTB = 0x01;
-		} else if (adc_var >= 0x0F * 2) {
-			PORTB = 0x03;
-		} else if (adc_var >= 0x0F * 3) {
-			PORTB = 0x07;
-		} else if (adc_var >= 0x0F * 4) {
-			PORTB = 0x0F;
-		} else if (adc_var >= 0x0F * 5) {
-			PORTB = 0x1F;
-		} else if (adc_var >= 0x0F * 6) {
-			PORTB = 0x3F;
-		} else if (adc_var >= 0x0F * 7) {
-			PORTB = 0x7F;
-		} else if (adc_var >= 0x0F * 8) {
-			PORTB = 0xFF;
-		} 
+		if (adc_var >= 0x3f) {
+			PORTB = 0xff;
+			PORTD = 0xff;
+		} else {
+			PORTB = 0x00;
+			PORTD = 0x00;
+		}
     }
     return 0;
 }

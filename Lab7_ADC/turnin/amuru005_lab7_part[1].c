@@ -1,7 +1,7 @@
 /*	Author: gowthamanto
  *  Partner(s) Name: Anto Murugan
  *	Lab Section: 022
- *	Assignment: Lab 7  Exercise 4
+ *	Assignment: Lab 7  Exercise 1
  *	Exercise Description: [optional - include for your own benefit]
  *
  *	I acknowledge all content contained herein, excluding template or example
@@ -25,26 +25,15 @@ int main(void) {
 
     /* Insert your solution below */
     unsigned short adc_var = ADC;
+    unsigned char tmp1 = (char)adc_var;
+    unsigned char tmp2 = (char)(adc_var>>8);
     
     while (1) {
-
-		if (adc_var >= 0x0F) {
-			PORTB = 0x01;
-		} else if (adc_var >= 0x0F * 2) {
-			PORTB = 0x03;
-		} else if (adc_var >= 0x0F * 3) {
-			PORTB = 0x07;
-		} else if (adc_var >= 0x0F * 4) {
-			PORTB = 0x0F;
-		} else if (adc_var >= 0x0F * 5) {
-			PORTB = 0x1F;
-		} else if (adc_var >= 0x0F * 6) {
-			PORTB = 0x3F;
-		} else if (adc_var >= 0x0F * 7) {
-			PORTB = 0x7F;
-		} else if (adc_var >= 0x0F * 8) {
-			PORTB = 0xFF;
-		} 
+		adc_var = ADC;
+		tmp1 = (char)adc_var;
+		tmp2 = (char)(adc_var>>8);
+		PORTB = tmp1;
+		PORTD = tmp2;
     }
     return 0;
 }
