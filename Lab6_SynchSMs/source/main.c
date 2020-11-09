@@ -58,132 +58,138 @@ void TimerSet(unsigned long M)
         _avr_timer_cntcurr = _avr_timer_M;
 }
 
-enum States {Start, Init, Add, Sub, R, ADDING, MINUSING}state;
+enum States {Start, Init, Increment, Decrement, Reset, Increase, Decrease}state;
 
 void Tick() {
-	switch(state) { //transitions
+	switch(state) { // Transitions
 		case Start:
 			PORTB = 0x07;
-			temp = 0x00;
-			state = INIT;
+			tmpB = 0x00;
+			state = Init;
 			break;
 
-		case INIT:
+		case Init:
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADD;
+				state = Increment;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUS;
+				state = Decrement;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state = RESET;
+				state = Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
 			break;
 
-		case ADD: 
+		case Increment: 
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADDING;
+				state = Increase;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUS;
+				state = Decrement;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state =  RESET;
+				state =  Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
 			break;
 
-		case MINUS: 
+		case Decrement: 
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADD;
+				state = Increment;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUSING;
+				state = Decrease;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state =  RESET;
+				state =  Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
 			break;
 
-		case RESET:
+		case Reset:
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADD;
+				state = Increment;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUS;
+				state = Decrement;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state =  RESET;
+				state =  Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
 			break;
 			
-		case ADDING: 
+		case Increase: 
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADDING;
+				state = Increase;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUS;
+				state = Decrement;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state =  RESET;
+				state =  Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
 			break;
 		
-		case MINUSING: 
+		case Decrease: 
 			if ((~PINA & 0x03) == 0x01) {
-				state = ADD;
+				state = Increment;
 			} else if ((~PINA & 0x03) == 0x02) {
-				state = MINUSING;
+				state = Decrease;
 			} else if ((~PINA & 0x03) == 0x03) {
-				state =  RESET;
+				state =  Reset;
 			} else if ((~PINA & 0x03) == 0x00) {
-				state = INIT;
+				state = Init;
 			}
+			break;
+		default:
+			state = Start;
 			break;
 	}
 		
-	switch(state){ //actions
+	switch(state){ // State actions
 		case Start:
 			PORTB = 0x07;
-			temp = 0x00;
+			tmpB = 0x00;
 			break;
 
-		case INIT:
-			temp = 0x00;
+		case Init:
+			tmpB = 0x00;
 			break;
 
-		case ADD: 
-			temp = 0x00;
+		case Increment: 
+			tmpB = 0x00;
 			if (PORTB < 0x09) {
 				PORTB = PORTB + 0x01;
 			}
 			break;
 
-		case MINUS: 
-			temp = 0x00;
+		case Decrement: 
+			tmpB = 0x00;
 			if (PORTB > 0x00) {
 				PORTB = PORTB - 0x01;
 			}
 			break;
 
-		case RESET:
+		case Reset:
 			PORTB = 0x00;
-			temp = 0x00;
+			tmpB = 0x00;
 			break;
 			
-		case ADDING: 
-			if ((PORTB < 0x09) && (temp >= 0x0A)) {
+		case Increase: 
+			if ((PORTB < 0x09) && (tmpB >= 0x0A)) {
 				PORTB = PORTB + 0x01;
-				temp = 0x00;
+				tmpB = 0x00;
 			}
-			temp = temp + 0x01;
+			tmpB = tmpB + 0x01;
 			break;
 		
-		case MINUSING: 
-			if ((PORTB > 0x00) && (temp >= 0x0A)) {
+		case Decrease: 
+			if ((PORTB > 0x00) && (tmpB >= 0x0A)) {
 				PORTB = PORTB - 0x01;
-				temp = 0x00;
+				tmpB = 0x00;
 			}
-			temp = temp + 0x01;
+			tmpB = tmpB + 0x01;
+			break;
+		default:
+			PORTB = 0x00;
 			break;
 	}
 }
